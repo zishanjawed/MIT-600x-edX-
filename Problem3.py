@@ -1,52 +1,44 @@
 """
-Program : find the greatest sub-string of a sting (all in lower case ) entered by user
+Program : Problem 3 - Using Bisection Search to Make the Program Faster (MIT 600x)
 
-date : 07 / 29 / 2018 (mm / dd / yyyy)
+mathematicle terms:
+		Monthly interest rate = (Annual interest rate) / 12.0
+		Monthly payment lower bound = Balance / 12
+		Monthly payment upper bound = (Balance x (1 + Monthly interest rate)12) / 12.0
 
-@author : Zishan jawed
+@author : Zishan Jawed
 
 """
+balance = float(input("Enter your credit card balance at month 0 : "))
 
-# getting input from the user
-string =  input ("Enter your sting : ") 
+annualInterestRate = float(input("Enter the annual interest rate of your credit card : "))
 
-# In case there is any capital letter 
-string = string.lower()
+monthlyInterastRate = annualInterestRate / 12.0
 
-temp1=''
-temp2=''
-flag = 0    
+lowerBound = balance /12
 
-# Traversing the string using for loop
-for i in range(len(string)-1):
-	if i == len(string)-1:
-		if flag == 0:
-			temp1 += string[i]
-			break
-		else:
-			tepm2 = string[i]
-			break
+upperBound = (balance * (1 + monthlyInterastRate)**12) /12.0
 
+balanceUpdate = 0
+
+ans = (upperBound + lowerBound) / 2
+
+epcilon = 0.03
+
+while abs(balanceUpdate) >= epcilon:
+	balanceUpdate = balance
+	ans = (upperBound + lowerBound) / 2
+	for i in range(12):    
+		monthlyUnpaidBalance = balanceUpdate - ans
+		balanceCopy = monthlyUnpaidBalance + (mouthlyInterestRate* monthlyUnpaidBalance)
+	if balanceUpdate > epcilon:
+		lowerBound = ans
+	elif balanceUpdate < epcilon:
+		upperBound = ans
 	else:
-		if string[i+1] >= string[i]:
-			if flag == 0:
-				temp1 += string[i]
-			else:
-				temp2 += string[i]
-		else:
-			if flag == 0:
-				temp1 += string[i]
-			elif flag == 1:
-				temp2 += string[i]
-			if len(temp1) > len(temp2):
-				temp2 = ''
-				flag = 1
-			else:
-				temp1 = ''
-				flag = 0
+		break
+	
 
-# camparing the final two sub-string
-if len(temp1) > len(temp2) or len(temp1) == len(temp2):
-	print("Longest substring in alphabetical order is: {}".format(temp1))
-else:
-	print("Longest substring in alphabetical order is: {}".format(temp2))
+print("Lowest Payment: {}".format(round(ans,2)))
+
+	
